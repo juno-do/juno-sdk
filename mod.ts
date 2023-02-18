@@ -10,8 +10,9 @@ export function getArgmuentValue(name: string) {
   }
   const payload = payloadUnDecoded.replace(prefix, "");
   const payloadDecoded = atob(payload);
-  const payloadJson: { name: string; value: string }[] =
-    JSON.parse(payloadDecoded);
+  const payloadJson: { name: string; value: string }[] = JSON.parse(
+    payloadDecoded,
+  );
   return payloadJson.find((item) => item.name === name)?.value;
 }
 export function returnListResponse(response: ListTypeReturn) {
@@ -38,4 +39,3 @@ export function returnResponse(response: unknown) {
 export function returnOneItemResponse(response: Element) {
   console.log(encode(JSON.stringify(response)));
 }
-
