@@ -1,11 +1,14 @@
 {
-  "$id": "ManifestId",
+  "$id": "Manifest",
   "$ref": "#/definitions/Manifest",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "definitions": {
     "Manifest": {
       "additionalProperties": false,
       "properties": {
+        "$schema": {
+          "type": "string"
+        },
         "auth": {
           "additionalProperties": false,
           "properties": {
@@ -204,6 +207,7 @@
         }
       },
       "required": [
+        "$schema",
         "name",
         "title",
         "description",
