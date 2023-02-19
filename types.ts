@@ -65,6 +65,7 @@ export type Manifest = {
   domains: string[];
   auth: {
     type: "oauth2" | "basic";
+    needToAccessUserToken: boolean;
     oauth2: {
       callback: {
         requestParams: {

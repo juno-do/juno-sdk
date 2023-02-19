@@ -15,6 +15,9 @@
         "auth": {
           "additionalProperties": false,
           "properties": {
+            "needToAccessUserToken": {
+              "type": "boolean"
+            },
             "oauth2": {
               "additionalProperties": false,
               "properties": {
@@ -67,6 +70,7 @@
           },
           "required": [
             "type",
+            "needToAccessUserToken",
             "oauth2"
           ],
           "type": "object"
