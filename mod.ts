@@ -2,17 +2,12 @@ import { decrypt } from "./crypto.ts";
 import { encode } from "./deps.ts";
 import { Element, ListTypeReturn } from "./types.ts";
 
-/**
- * Obten el valor de un parametro que envia el cliente, solo
- * podras obtener el valor de los parametros que has definido en el manifest
- * @param name parameter name
- */
-export function getArgmuentValue(name: string) {
-  const prefix = `--payload=`;
+function getValueFromArgs(name: string,type:"parameters"|"secrets") {
+  const prefix = `--${type}=`;
   const args: string[] = Deno.args;
   const payloadUnDecoded = args.find((arg) => arg.includes(prefix));
   if (!payloadUnDecoded) {
-    throw new Error("No payload");
+    throw new Error(`No ${type}`);
   }
   const payload = payloadUnDecoded.replace(prefix, "");
   const payloadDecoded = atob(payload);
@@ -24,6 +19,19 @@ export function getArgmuentValue(name: string) {
     throw new Error("No value");
   }
   return value;
+}
+
+/**
+ * Obten el valor de un parametro que envia el cliente, solo
+ * podras obtener el valor de los parametros que has definido en el manifest
+ * @param name parameter name
+ */
+export function getParameterValue(name: string) {
+  return getValueFromArgs(name,"parameters");
+}
+
+export function getSecretValue(key: string) {
+  return getValueFromArgs(key,"secrets");
 }
 
 /**
@@ -72,7 +80,7 @@ export async function junoFetch(
   input: URL | Request | string,
   init?: RequestInit,
 ): Promise<Response> {
-  const tokenCrypted = getArgmuentValue("token");
+  const tokenCrypted = getParameterValue("token");
   if (!tokenCrypted) {
     throw new Error("No token");
   }
