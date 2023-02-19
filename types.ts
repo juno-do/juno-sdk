@@ -56,6 +56,7 @@ export type Filter = {
 
 export type Manifest = {
   $schema: string;
+  $version: string;
   name: string;
   title: string;
   description: string;
