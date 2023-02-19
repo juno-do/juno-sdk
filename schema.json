@@ -15,9 +15,6 @@
         "auth": {
           "additionalProperties": false,
           "properties": {
-            "needToAccessUserToken": {
-              "type": "boolean"
-            },
             "oauth2": {
               "additionalProperties": false,
               "properties": {
@@ -53,9 +50,26 @@
                     "requestParams"
                   ],
                   "type": "object"
+                },
+                "needRefreshToken": {
+                  "type": "boolean"
+                },
+                "refreshToken": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "url": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "url"
+                  ],
+                  "type": "object"
                 }
               },
               "required": [
+                "needRefreshToken",
+                "refreshToken",
                 "callback"
               ],
               "type": "object"
@@ -70,7 +84,6 @@
           },
           "required": [
             "type",
-            "needToAccessUserToken",
             "oauth2"
           ],
           "type": "object"
