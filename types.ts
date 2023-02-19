@@ -40,3 +40,52 @@ export type ListTypeReturn = {
   page: number;
   pageSize: number;
 };
+
+
+export type FilterOptions = {
+  name: string;
+  value: string;
+  backgroundColor?: string;
+};
+export type Filter = {
+  name: string;
+  type: "static" | "dynamic";
+  options: FilterOptions[];
+};
+
+
+export type Manifest = {
+  name: string;
+  title: string;
+  description: string;
+  icon: string;
+  author: string;
+  domains: string[];
+  auth: {
+    type: "oauth2" | "basic";
+    oauth2: {
+      callback: {
+        requestParams: {
+          name: string;
+          type: "string" | "number" | "boolean";
+        }[];
+      };
+    };
+  };
+  loadersLists: {
+    name: string;
+    returnType: string;
+    title: string;
+    filters: Filter[];
+  }[];
+  loadersItems: {
+    name: string;
+  }[];
+  categories: string[];
+  keywords: string[];
+  envs: {
+    name: string;
+    value: string;
+  }[];
+};
+

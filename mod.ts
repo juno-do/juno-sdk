@@ -19,7 +19,11 @@ export function getArgmuentValue(name: string) {
   const payloadJson: { name: string; value: string }[] = JSON.parse(
     payloadDecoded,
   );
-  return payloadJson.find((item) => item.name === name)?.value;
+  const value = payloadJson.find((p) => p.name === name)?.value;
+  if (!value) {
+    throw new Error("No value");
+  }
+  return value;
 }
 
 /**
@@ -74,7 +78,7 @@ export async function junoFetch(
   }
   const token = await decrypt(tokenCrypted);
   const headers = {
-    "Content-Type": "application/json",
+    ...init?.headers,
     Authorization: `Bearer ${token}`,
   };
   return await fetch(input, { ...init, headers });
