@@ -21,33 +21,12 @@
                 "callback": {
                   "additionalProperties": false,
                   "properties": {
-                    "requestParams": {
-                      "items": {
-                        "additionalProperties": false,
-                        "properties": {
-                          "name": {
-                            "type": "string"
-                          },
-                          "type": {
-                            "enum": [
-                              "string",
-                              "number",
-                              "boolean"
-                            ],
-                            "type": "string"
-                          }
-                        },
-                        "required": [
-                          "name",
-                          "type"
-                        ],
-                        "type": "object"
-                      },
-                      "type": "array"
+                    "url": {
+                      "type": "string"
                     }
                   },
                   "required": [
-                    "requestParams"
+                    "url"
                   ],
                   "type": "object"
                 },

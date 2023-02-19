@@ -1,7 +1,7 @@
 import { encode } from "./deps.ts";
 import { Element, ListTypeReturn } from "./types.ts";
 
-function getValueFromArgs(name: string,type:"parameters"|"secrets") {
+function getValueFromArgs(name: string, type: "parameters" | "secrets") {
   const prefix = `--${type}=`;
   const args: string[] = Deno.args;
   const payloadUnDecoded = args.find((arg) => arg.includes(prefix));
@@ -26,11 +26,11 @@ function getValueFromArgs(name: string,type:"parameters"|"secrets") {
  * @param name parameter name
  */
 export function getParameterValue(name: string) {
-  return getValueFromArgs(name,"parameters");
+  return getValueFromArgs(name, "parameters");
 }
 
 export function getSecretValue(key: string) {
-  return getValueFromArgs(key,"secrets");
+  return getValueFromArgs(key, "secrets");
 }
 
 /**
@@ -79,13 +79,12 @@ export async function junoFetch(
   input: URL | Request | string,
   init?: RequestInit,
 ): Promise<Response> {
-
   const payloadToProxy = {
     token: getSecretValue("USER_INTEGRATION_TOKEN_ENCRYPTED"),
     integration: getSecretValue("INTEGRATION_NAME"),
     input,
     init,
-  }
+  };
   const response = await fetch(`${getSecretValue("BASE_URL")}/proxy`, {
     method: "POST",
     body: JSON.stringify(payloadToProxy),

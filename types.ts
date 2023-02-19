@@ -41,7 +41,6 @@ export type ListTypeReturn = {
   pageSize: number;
 };
 
-
 export type FilterOptions = {
   name: string;
   value: string;
@@ -52,7 +51,6 @@ export type Filter = {
   type: "static" | "dynamic";
   options: FilterOptions[];
 };
-
 
 export type Manifest = {
   $schema: string;
@@ -65,16 +63,13 @@ export type Manifest = {
   domains: string[];
   auth: {
     type: "oauth2" | "basic";
-    oauth2: {
-      needRefreshToken: boolean;
-      refreshToken: {
+    oauth2?: {
+      needRefreshToken?: boolean;
+      refreshToken?: {
         url: string;
       };
-      callback: {
-        requestParams: {
-          name: string;
-          type: "string" | "number" | "boolean";
-        }[];
+      callback?: {
+        url: string;
       };
     };
   };
@@ -91,4 +86,3 @@ export type Manifest = {
   keywords: string[];
   secrets: string[];
 };
-
