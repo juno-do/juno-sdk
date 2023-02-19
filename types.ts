@@ -84,9 +84,6 @@ export type Manifest = {
   }[];
   categories: string[];
   keywords: string[];
-  envs: {
-    name: string;
-    value: string;
-  }[];
+  secrets: string[];
 };
 

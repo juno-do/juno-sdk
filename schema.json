@@ -86,25 +86,6 @@
           },
           "type": "array"
         },
-        "envs": {
-          "items": {
-            "additionalProperties": false,
-            "properties": {
-              "name": {
-                "type": "string"
-              },
-              "value": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "name",
-              "value"
-            ],
-            "type": "object"
-          },
-          "type": "array"
-        },
         "icon": {
           "type": "string"
         },
@@ -202,6 +183,12 @@
         "name": {
           "type": "string"
         },
+        "secrets": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
         "title": {
           "type": "string"
         }
@@ -219,7 +206,7 @@
         "loadersItems",
         "categories",
         "keywords",
-        "envs"
+        "secrets"
       ],
       "type": "object"
     }
