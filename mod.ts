@@ -1,4 +1,3 @@
-import { decrypt } from "./crypto.ts";
 import { encode } from "./deps.ts";
 import { Element, ListTypeReturn } from "./types.ts";
 
@@ -80,14 +79,16 @@ export async function junoFetch(
   input: URL | Request | string,
   init?: RequestInit,
 ): Promise<Response> {
-  const tokenCrypted = getParameterValue("token");
-  if (!tokenCrypted) {
-    throw new Error("No token");
+
+  const payloadToProxy = {
+    token: getSecretValue("USER_INTEGRATION_TOKEN_ENCRYPTED"),
+    integration: getSecretValue("INTEGRATION_NAME"),
+    input,
+    init,
   }
-  const token = await decrypt(tokenCrypted);
-  const headers = {
-    ...init?.headers,
-    Authorization: `Bearer ${token}`,
-  };
-  return await fetch(input, { ...init, headers });
+  const response = await fetch(`${getSecretValue("BASE_URL")}/proxy`, {
+    method: "POST",
+    body: JSON.stringify(payloadToProxy),
+  });
+  return response;
 }
