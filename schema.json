@@ -18,38 +18,72 @@
             "oauth2": {
               "additionalProperties": false,
               "properties": {
-                "callback": {
+                "authorizationMethod": {
+                  "enum": [
+                    "header",
+                    "body"
+                  ],
+                  "type": "string"
+                },
+                "authorizationParams": {
                   "additionalProperties": false,
                   "properties": {
-                    "url": {
+                    "accessType": {
+                      "type": "string"
+                    },
+                    "prompt": {
+                      "type": "string"
+                    },
+                    "responseType": {
                       "type": "string"
                     }
                   },
                   "required": [
-                    "url"
+                    "responseType",
+                    "accessType",
+                    "prompt"
                   ],
                   "type": "object"
                 },
-                "needRefreshToken": {
-                  "type": "boolean"
+                "authorizationUrl": {
+                  "type": "string"
                 },
-                "refreshToken": {
+                "bodyFormat": {
+                  "enum": [
+                    "json",
+                    "form"
+                  ],
+                  "type": "string"
+                },
+                "scopeSeparator": {
+                  "type": "string"
+                },
+                "scopes": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "tokenParams": {
                   "additionalProperties": false,
                   "properties": {
-                    "url": {
+                    "grantType": {
                       "type": "string"
                     }
                   },
                   "required": [
-                    "url"
+                    "grantType"
                   ],
                   "type": "object"
+                },
+                "tokenUrl": {
+                  "type": "string"
                 }
               },
               "required": [
-                "needRefreshToken",
-                "refreshToken",
-                "callback"
+                "authorizationUrl",
+                "authorizationMethod",
+                "bodyFormat"
               ],
               "type": "object"
             },
@@ -62,8 +96,7 @@
             }
           },
           "required": [
-            "type",
-            "oauth2"
+            "type"
           ],
           "type": "object"
         },

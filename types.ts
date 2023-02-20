@@ -64,13 +64,20 @@ export type Manifest = {
   auth: {
     type: "oauth2" | "basic";
     oauth2?: {
-      needRefreshToken?: boolean;
-      refreshToken?: {
-        url: string;
+      authorizationUrl: string;
+      authorizationMethod: "header" | "body";
+      bodyFormat: "json" | "form";
+      scopeSeparator?: string;
+      tokenUrl?: string;
+      tokenParams?: {
+        grantType: string;
       };
-      callback?: {
-        url: string;
-      };
+      scopes?: string[];
+      authorizationParams?: {
+        responseType: string;
+        accessType: string;
+        prompt: string;
+    };
     };
   };
   loadersLists: {
