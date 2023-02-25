@@ -20,16 +20,16 @@ export async function decrypt(encreptedTextHex:string) {
 }
 
 function getAesClient(){
-    const key = Deno.env.get("SECRET_KEY")
-    if(!key){
-        throw new Error("No key");
+     const key = Deno.env.get("ENCRYPTION_ACCES_USER_TOKEN_KEY")
+    const iv = Deno.env.get("ENCRYPTION_ACCES_USER_TOKEN_IV");
+    if (!key || !iv) {
+      throw new Error(
+        "ENCRYPTION_ACCES_USER_TOKEN_KEY or ENCRYPTION_ACCES_USER_TOKEN_IV is not defined",
+      );
     }
-    const IV_LENGTH = 16;
-    const aes = new AES(key, {
+     const aes = new AES(key, {
         mode: "cbc",
-        iv: "random 16byte iv"//new Uint8Array(IV_LENGTH)
+        iv
     });
     return aes;
 }
-
-//console.log(await decrypt("87dc64bfa90daa0b6aa02b8619761dbe"));
