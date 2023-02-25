@@ -6,6 +6,8 @@ export type ActivityItem = {
   time: string;
 };
 
+
+
 export type Element = {
   id: string;
   icon?: string;
@@ -13,7 +15,7 @@ export type Element = {
   body: string;
   snippet: string;
   bodyHtml?: string;
-  boydMarkdown?: string;
+  bodyMarkdown?: string;
   title: string;
   subTitle?: string;
   highlight?: string;
@@ -33,11 +35,16 @@ export type Element = {
     colorHex?: string;
   }[];
 };
-
-export type ListTypeReturn = {
+export type Sublist = {
+  title: string;
   elements: Element[];
+}
+export type ListTypeReturn = {
+  subLists:Sublist[];
   total: number;
   page: number;
+  nextPage?: string| number;
+  hasNextPage?: boolean;
   pageSize: number;
 };
 
@@ -48,7 +55,9 @@ export type FilterOptions = {
 };
 export type Filter = {
   name: string;
+  principal: boolean;
   type: "static" | "dynamic";
+  multiple: boolean;
   options: FilterOptions[];
 };
 

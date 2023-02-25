@@ -1,6 +1,7 @@
 {
   "tasks": {
     "crypto": "deno run --allow-env=SECRET_KEY --allow-read=. crypto.ts",
-    "generate-json-schema": "npx ts-json-schema-generator --path 'types.ts' --type 'Manifest' -e none -o schema.json -i Manifest"
+    "generate-json-schema": "npx ts-json-schema-generator --path 'types.ts' --type 'Manifest' -e none -o schema.json -i Manifest",
+    "proxy": "cd proxy && deno run --allow-net --allow-read=.env,.env.defaults --allow-env=SECRET_KEY proxy.ts"
   }
 }

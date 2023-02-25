@@ -1,5 +1,5 @@
 import { encode } from "./deps.ts";
-import { Element, ListTypeReturn } from "./types.ts";
+import { Element, FilterOptions, ListTypeReturn } from "./types.ts";
 
 function getValueFromArgs(name: string, type: "parameters" | "secrets") {
   const prefix = `--${type}=`;
@@ -13,11 +13,11 @@ function getValueFromArgs(name: string, type: "parameters" | "secrets") {
   const payloadJson: { name: string; value: string }[] = JSON.parse(
     payloadDecoded,
   );
-  const value = payloadJson.find((p) => p.name === name)?.value;
+  const value = payloadJson.find((p) => p.name === name);
   if (!value) {
     throw new Error("No value");
   }
-  return value;
+  return value?.value;
 }
 
 /**
@@ -41,6 +41,10 @@ export function returnListResponse(response: ListTypeReturn) {
   console.log(encode(JSON.stringify(response)));
 }
 
+export function returnFilterOptionsResponse(options: FilterOptions[]) {
+  console.log(encode(JSON.stringify(options)));
+}
+
 /**
  * Guarda la configuracion de la integracion y redirige al cliente
  * @param name parameter name
@@ -50,7 +54,6 @@ export function returnListResponse(response: ListTypeReturn) {
  * @param token token de la integracion
  */
 export function saveIntegrationConfigAndRedirect(data: {
-  token: string;
   email: string;
   picture: string;
   displayName: string;
@@ -79,15 +82,15 @@ export async function junoFetch(
   input: URL | Request | string,
   init?: RequestInit,
 ): Promise<Response> {
-  const payloadToProxy = {
-    token: getSecretValue("USER_INTEGRATION_TOKEN_ENCRYPTED"),
-    integration: getSecretValue("INTEGRATION_NAME"),
-    input,
-    init,
-  };
-  const response = await fetch(`${getSecretValue("BASE_URL")}/proxy`, {
-    method: "POST",
-    body: JSON.stringify(payloadToProxy),
+  const response = await fetch(`http://localhost:8080`, {
+    ...init,
+    headers: {
+      ...init?.headers,
+      "Content-Type": "application/json",
+      "X-Juno-token-encrypted": getSecretValue("USER_INTEGRATION_TOKEN_ENCRYPTED"),
+      "X-Juno-input": input.toString(),
+    },
   });
-  return response;
+   return response;
 }
+
