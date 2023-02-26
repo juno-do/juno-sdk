@@ -11,41 +11,48 @@ async function serveHttp(conn: Deno.Conn) {
   const httpConn = Deno.serveHttp(conn);
 
   for await (const requestEvent of httpConn) {
-     handleRequest(requestEvent);
+    handleRequest(requestEvent);
   }
 }
 
 async function handleRequest(requestEvent: Deno.RequestEvent) {
   try {
     console.log("Peticion", new Date().toISOString());
-    const accesTokenEncrypted = requestEvent.request.headers.get("X-Juno-token-encrypted");
-    if(!accesTokenEncrypted) {
+    const accesTokenEncrypted = requestEvent.request.headers.get(
+      "X-Juno-token-encrypted",
+    );
+    if (!accesTokenEncrypted) {
       throw new Error("No token");
     }
     const accesTokenDecrypted = await decrypt(accesTokenEncrypted);
     const input = requestEvent.request.headers.get("x-juno-input");
-    if(!input) {
+    if (!input) {
       throw new Error("No input");
     }
-    const body = requestEvent.request.body ? await requestEvent.request.text() : undefined;
+    const body = requestEvent.request.body
+      ? await requestEvent.request.text()
+      : undefined;
 
     const response = await fetch(input, {
       ...requestEvent.request,
       method: requestEvent.request.method,
       body: body,
       headers: {
-        "Content-Type": requestEvent.request.headers.get("Content-Type") ?? "application/json",
-        Authorization: `Bearer ${accesTokenDecrypted}`
+        "Content-Type": requestEvent.request.headers.get("Content-Type") ??
+          "application/json",
+        Authorization: `Bearer ${accesTokenDecrypted}`,
       },
     });
     const responseJson = await response.text();
     console.log("Respuesta", responseJson, requestEvent.request.headers);
-    requestEvent.respondWith(new Response(responseJson, {
-      status: response.status,
-      statusText: response.statusText,
-      headers: response.headers,
-    }));
-  } catch(error) {
+    requestEvent.respondWith(
+      new Response(responseJson, {
+        status: response.status,
+        statusText: response.statusText,
+        headers: response.headers,
+      }),
+    );
+  } catch (error) {
     console.error(error);
     requestEvent.respondWith(new Response(error.message, { status: 500 }));
   }

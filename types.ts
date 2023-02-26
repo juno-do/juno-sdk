@@ -6,8 +6,6 @@ export type ActivityItem = {
   time: string;
 };
 
-
-
 export type Element = {
   id: string;
   icon?: string;
@@ -38,12 +36,12 @@ export type Element = {
 export type Sublist = {
   title: string;
   elements: Element[];
-}
+};
 export type ListTypeReturn = {
-  subLists:Sublist[];
+  subLists: Sublist[];
   total: number;
   page: number;
-  nextPage?: string| number;
+  nextPage?: string | number;
   hasNextPage?: boolean;
   pageSize: number;
 };
@@ -86,7 +84,7 @@ export type Manifest = {
         responseType: string;
         accessType: string;
         prompt: string;
-    };
+      };
     };
   };
   loadersLists: {
@@ -101,4 +99,14 @@ export type Manifest = {
   categories: string[];
   keywords: string[];
   secrets: string[];
+};
+
+export type UserIntegration = {
+  id: string;
+  authorId: string;
+  accessToken: string;
+  integration: string;
+  email: string;
+  name: string;
+  picture: string;
 };

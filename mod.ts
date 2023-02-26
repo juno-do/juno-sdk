@@ -87,10 +87,11 @@ export async function junoFetch(
     headers: {
       ...init?.headers,
       "Content-Type": "application/json",
-      "X-Juno-token-encrypted": getSecretValue("USER_INTEGRATION_TOKEN_ENCRYPTED"),
+      "X-Juno-token-encrypted": getSecretValue(
+        "USER_INTEGRATION_TOKEN_ENCRYPTED",
+      ),
       "X-Juno-input": input.toString(),
     },
   });
-   return response;
+  return response;
 }
-
