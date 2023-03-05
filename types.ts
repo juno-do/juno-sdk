@@ -104,9 +104,21 @@ export type Manifest = {
 export type UserIntegration = {
   id: string;
   authorId: string;
-  accessToken: string;
+  token: string;
   integration: string;
   email: string;
   name: string;
   picture: string;
+};
+export type userIntegrationPayload = {
+  email: string;
+  picture: string;
+  name: string;
+  token: string;
+};
+
+export type requestParams = {
+  name: string;
+  type: string;
+  value?: string | undefined;
 };
