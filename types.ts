@@ -3,22 +3,22 @@ export type ActivityItem = {
   icon?: string;
   snippet: string;
   subTitle?: string;
-  time: string;
+  time?: string;
 };
 
 export type Element = {
   id: string;
   icon?: string;
-  groupId: string;
-  body: string;
-  snippet: string;
+  groupId?: string;
+  body?: string;
+  snippet?: string;
   bodyHtml?: string;
   bodyMarkdown?: string;
   title: string;
   subTitle?: string;
   highlight?: string;
-  origin: string;
-  date: string;
+  origin?: string;
+  date?: string;
   feeds?: {
     title: string;
     elements: ActivityItem[];
