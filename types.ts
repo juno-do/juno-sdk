@@ -73,7 +73,7 @@ export type Manifest = {
     oauth2?: {
       authorizationUrl: string;
       authorizationMethod: "header" | "body";
-      bodyFormat: "json" | "form";
+      bodyFormat?: "json" | "form";
       scopeSeparator?: string;
       tokenUrl?: string;
       tokenParams?: {

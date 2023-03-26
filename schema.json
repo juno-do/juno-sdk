@@ -82,8 +82,7 @@
               },
               "required": [
                 "authorizationUrl",
-                "authorizationMethod",
-                "bodyFormat"
+                "authorizationMethod"
               ],
               "type": "object"
             },
@@ -150,6 +149,9 @@
                 "items": {
                   "additionalProperties": false,
                   "properties": {
+                    "multiple": {
+                      "type": "boolean"
+                    },
                     "name": {
                       "type": "string"
                     },
@@ -175,6 +177,9 @@
                       },
                       "type": "array"
                     },
+                    "principal": {
+                      "type": "boolean"
+                    },
                     "type": {
                       "enum": [
                         "static",
@@ -185,7 +190,9 @@
                   },
                   "required": [
                     "name",
+                    "principal",
                     "type",
+                    "multiple",
                     "options"
                   ],
                   "type": "object"
