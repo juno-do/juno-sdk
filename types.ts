@@ -19,6 +19,11 @@ export type Element = {
   highlight?: string;
   origin?: string;
   date?: string;
+  actions?: {
+    id: string;
+    name: string;
+    icon?: string;
+  }[];
   feeds?: {
     title: string;
     elements: ActivityItem[];
