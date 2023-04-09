@@ -1,7 +1,7 @@
 import { decrypt } from "./crypto.ts";
 
-const server = Deno.listen({ port: 8080 });
-console.log(`HTTP webserver running.  Access it at:  http://localhost:8080/`);
+const server = Deno.listen({ port: 8989 });
+console.log(`HTTP webserver running.  Access it at:  http://localhost:8989/`);
 
 for await (const conn of server) {
   serveHttp(conn);
