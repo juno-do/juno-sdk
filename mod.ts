@@ -82,7 +82,12 @@ export async function junoFetch(
   input: URL | Request | string,
   init?: RequestInit,
 ): Promise<Response> {
-  const response = await fetch(`http://localhost:8080`, {
+  const PROXY_URL = Deno.env.get("PROXY_URL");
+  if (!PROXY_URL) {
+    throw new Error("No proxy url");
+  }
+
+  const response = await fetch(PROXY_URL, {
     ...init,
     headers: {
       ...init?.headers,
