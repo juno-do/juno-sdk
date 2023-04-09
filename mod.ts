@@ -87,7 +87,7 @@ export async function junoFetch(
     throw new Error("No proxy url");
   }
   console.log("PROXY_URL", PROXY_URL,input.toString());
-  const response = await fetch(PROXY_URL, {
+  const response = await fetch(`http://${PROXY_URL}`, {
     ...init,
     headers: {
       ...init?.headers,
