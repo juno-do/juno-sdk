@@ -1,4 +1,3 @@
-import { encode } from "./deps.ts";
 import { Element, FilterOptions, ListTypeReturn } from "./types.ts";
 
 function getValueFromArgs(name: string, type: "parameters" | "secrets") {
@@ -38,11 +37,11 @@ export function getSecretValue(key: string) {
  * @param response listado de elementos
  */
 export function returnListResponse(response: ListTypeReturn) {
-  console.log(encode(JSON.stringify(response)));
+  console.log(JSON.stringify(response));
 }
 
 export function returnFilterOptionsResponse(options: FilterOptions[]) {
-  console.log(encode(JSON.stringify(options)));
+  console.log(JSON.stringify(options));
 }
 
 /**
@@ -58,19 +57,19 @@ export function saveIntegrationConfigAndRedirect(data: {
   picture: string;
   displayName: string;
 }) {
-  console.log(encode(JSON.stringify(data)));
+  console.log(JSON.stringify(data));
 }
 
 export function returnResponse(response: unknown) {
   if (typeof response === "string") {
-    console.log(encode(response));
+    console.log(response);
   } else {
-    console.log(encode(JSON.stringify(response)));
+    console.log(JSON.stringify(response));
   }
 }
 
 export function returnOneItemResponse(response: Element) {
-  console.log(encode(JSON.stringify(response)));
+  console.log(JSON.stringify(response));
 }
 
 /**
@@ -86,8 +85,7 @@ export async function junoFetch(
   if (!PROXY_URL) {
     throw new Error("No proxy url");
   }
-  console.log("PROXY_URL", PROXY_URL,input.toString());
-  const response = await fetch(`http://${PROXY_URL}`, {
+   const response = await fetch(`http://${PROXY_URL}`, {
     ...init,
     headers: {
       ...init?.headers,
