@@ -51,6 +51,7 @@ export type Element = {
 
 export type ListElement = Element &{
   snippetText?: string;
+  itemType: string;
 }
 
 export type DetailElement = Element & Body;
