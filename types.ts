@@ -1,24 +1,34 @@
+
+export type Body = {
+  bodyHtml?: string;
+  bodyMarkdown?: string;
+};
+
 export type ActivityItem = {
   id: string;
+  type: "message" | "event";
   icon?: string;
   snippet: string;
   subTitle?: string;
-  time?: string;
+  dateTime?: string;
+} & Body;
+
+export type Icon = {
+  url: string;
+  text?: string;
 };
 
 export type Element = {
   id: string;
-  icon?: string;
   groupId?: string;
-  body?: string;
-  snippet?: string;
-  bodyHtml?: string;
-  bodyMarkdown?: string;
+  icon?: string;
   title: string;
   subTitle?: string;
   highlight?: string;
   origin?: string;
-  date?: string;
+  dateTime?: string;
+  principalIcon?:Icon,
+  infoIcons?: Icon[],
   actions?: {
     id: string;
     name: string;
@@ -38,9 +48,15 @@ export type Element = {
     colorHex?: string;
   }[];
 };
+
+export type ListElement = Element &{
+  snippetText?: string;
+}
+
+export type DetailElement = Element & Body;
 export type Sublist = {
   title: string;
-  elements: Element[];
+  elements: ListElement[];
 };
 export type ListTypeReturn = {
   subLists: Sublist[];
