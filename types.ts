@@ -8,7 +8,6 @@ export type ActivityItem = {
   id: string;
   type: "message" | "event";
   icon?: string;
-  snippet: string;
   subTitle?: string;
   dateTime?: string;
 } & Body;
