@@ -112,7 +112,6 @@ export type Manifest = {
   };
   loadersLists: {
     name: string;
-    returnType: string;
     title: string;
     filters: Filter[];
   }[];

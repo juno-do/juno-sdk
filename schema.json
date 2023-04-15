@@ -202,16 +202,12 @@
               "name": {
                 "type": "string"
               },
-              "returnType": {
-                "type": "string"
-              },
               "title": {
                 "type": "string"
               }
             },
             "required": [
               "name",
-              "returnType",
               "title",
               "filters"
             ],
