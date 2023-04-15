@@ -32,6 +32,7 @@ export type Element = {
   actions?: {
     id: string;
     name: string;
+    label: string;
     icon?: string;
   }[];
   feeds?: {
