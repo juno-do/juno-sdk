@@ -28,6 +28,7 @@ export type Element = {
   dateTime?: string;
   principalIcon?:Icon,
   infoIcons?: Icon[],
+  itemUrl?: string;
   actions?: {
     id: string;
     name: string;
