@@ -1,35 +1,24 @@
 import { Element, FilterOptions, ListTypeReturn } from "./types.ts";
 
-function getValueFromArgs(name: string, type: "parameters" | "secrets") {
-  const prefix = `--${type}=`;
-  const args: string[] = Deno.args;
-  const payloadUnDecoded = args.find((arg) => arg.includes(prefix));
-  if (!payloadUnDecoded) {
-    throw new Error(`No ${type}`);
-  }
-  const payload = payloadUnDecoded.replace(prefix, "");
-  const payloadDecoded = atob(payload);
-  const payloadJson: { name: string; value: string }[] = JSON.parse(
-    payloadDecoded,
-  );
-  const value = payloadJson.find((p) => p.name === name);
-  if (!value) {
-    throw new Error("No value");
-  }
-  return value?.value;
-}
 
-/**
- * Obten el valor de un parametro que envia el cliente, solo
- * podras obtener el valor de los parametros que has definido en el manifest
- * @param name parameter name
- */
+
 export function getParameterValue(name: string) {
-  return getValueFromArgs(name, "parameters");
-}
+  return new Promise((resolve, reject) => {
+    const uuid = generateUUID();
+    self.postMessage({ action: 'getParam', uuid, param:name });
 
-export function getSecretValue(key: string) {
-  return getValueFromArgs(key, "secrets");
+    self.addEventListener("message", (e) => {
+      const { action, error, responseUUID, paramValue } = e.data;
+
+      if (action === 'returnParam' && responseUUID === uuid ) {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(paramValue);
+        }
+      }
+    });
+  });
 }
 
 /**
@@ -37,11 +26,11 @@ export function getSecretValue(key: string) {
  * @param response listado de elementos
  */
 export function returnListResponse(response: ListTypeReturn) {
-  console.log(JSON.stringify(response));
+  return response;
 }
 
 export function returnFilterOptionsResponse(options: FilterOptions[]) {
-  console.log(JSON.stringify(options));
+  return options;
 }
 
 /**
@@ -57,44 +46,51 @@ export function saveIntegrationConfigAndRedirect(data: {
   picture: string;
   displayName: string;
 }) {
-  console.log(JSON.stringify(data));
+  return data;
 }
 
 export function returnResponse(response: unknown) {
-  if (typeof response === "string") {
-    console.log(response);
-  } else {
-    console.log(JSON.stringify(response));
-  }
+  return response;
 }
 
 export function returnOneItemResponse(response: Element) {
-  console.log(JSON.stringify(response));
+  return response;
 }
 
-/**
+
+  /**
  * Fetch que añade en la cabecera de autorizacion el token de la integracion del usuario
  * @param url
  * @param options
  */
-export async function junoFetch(
-  input: URL | Request | string,
-  init?: RequestInit,
-): Promise<Response> {
-  const PROXY_URL = Deno.env.get("PROXY_URL");
-  if (!PROXY_URL) {
-    throw new Error("No proxy url");
+  export function junoFetch(
+    input: URL | Request | string,
+    init?: RequestInit,
+  ): Promise<Response> {
+    return new Promise((resolve, reject) => {
+      const uuid = generateUUID();
+      
+      self.postMessage({ action: 'fetch', uuid,fetch: {input,init} });
+  
+      self.addEventListener("message", (e) => {
+        const { action, error, responseUUID,fetchResponse } = e.data;
+        if (action === 'fetchResponse' && responseUUID === uuid && fetchResponse) {
+          const response = new Response(fetchResponse.body, fetchResponse.init);
+          if (error) {
+            reject(error);
+          } else {
+            resolve(response);
+          }
+        }
+      });
+    });
   }
-   const response = await fetch(`http://${PROXY_URL}`, {
-    ...init,
-    headers: {
-      ...init?.headers,
-      "Content-Type": "application/json",
-      "X-Juno-token-encrypted": getSecretValue(
-        "USER_INTEGRATION_TOKEN_ENCRYPTED",
-      ),
-      "X-Juno-input": input.toString(),
-    },
-  });
-  return response;
-}
+  
+
+  function generateUUID() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+      const r = Math.trunc(Math.random() * 16);
+      const v = c == 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+  }
