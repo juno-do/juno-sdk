@@ -1,7 +1,16 @@
 {
+  "name": "@junodo/sdk",
+  "version": "0.1.3",
+  "license": "MIT",
+  "exports": "./mod.ts",
   "tasks": {
     "crypto": "deno run --allow-env=SECRET_KEY --allow-read=. crypto.ts",
     "generate-json-schema": "npx ts-json-schema-generator --path 'types.ts' --type 'Manifest' -e none -o schema.json -i Manifest",
     "proxy": "cd proxy && deno run --allow-net --allow-read=.env,.env.defaults --allow-env proxy.ts"
-  }
+  },
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+  },
+  "unstable": ["sloppy-imports"]
 }
