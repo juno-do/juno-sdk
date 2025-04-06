@@ -149,6 +149,9 @@
                 "items": {
                   "additionalProperties": false,
                   "properties": {
+                    "in_display_section": {
+                      "type": "boolean"
+                    },
                     "multiple": {
                       "type": "boolean"
                     },
@@ -162,6 +165,9 @@
                           "backgroundColor": {
                             "type": "string"
                           },
+                          "filter": {
+                            "type": "string"
+                          },
                           "name": {
                             "type": "string"
                           },
@@ -170,6 +176,7 @@
                           }
                         },
                         "required": [
+                          "filter",
                           "name",
                           "value"
                         ],
@@ -180,16 +187,73 @@
                     "principal": {
                       "type": "boolean"
                     },
+                    "subItems": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "multiple": {
+                            "type": "boolean"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "options": {
+                            "items": {
+                              "additionalProperties": false,
+                              "properties": {
+                                "backgroundColor": {
+                                  "type": "string"
+                                },
+                                "filter": {
+                                  "type": "string"
+                                },
+                                "name": {
+                                  "type": "string"
+                                },
+                                "value": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "filter",
+                                "name",
+                                "value"
+                              ],
+                              "type": "object"
+                            },
+                            "type": "array"
+                          },
+                          "title": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "title",
+                          "name",
+                          "multiple",
+                          "options"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
                     "type": {
                       "enum": [
                         "static",
                         "dynamic"
                       ],
                       "type": "string"
+                    },
+                    "useSubItems": {
+                      "type": "boolean"
                     }
                   },
                   "required": [
                     "name",
+                    "title",
                     "principal",
                     "type",
                     "multiple",
@@ -226,6 +290,56 @@
         },
         "title": {
           "type": "string"
+        },
+        "viewOptions": {
+          "additionalProperties": false,
+          "properties": {
+            "selectOptions": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "label": {
+                    "type": "string"
+                  },
+                  "value": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "label",
+                  "value"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            },
+            "toogleOptions": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "defaultValue": {
+                    "type": "boolean"
+                  },
+                  "label": {
+                    "type": "string"
+                  },
+                  "value": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "label"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "toogleOptions",
+            "selectOptions"
+          ],
+          "type": "object"
         }
       },
       "required": [
@@ -237,6 +351,7 @@
         "icon",
         "author",
         "domains",
+        "viewOptions",
         "auth",
         "loadersLists",
         "loadersItems",

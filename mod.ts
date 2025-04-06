@@ -1,4 +1,11 @@
-import { Element, FilterOptions, ListTypeReturn } from "./types.ts";
+import { FilterSubItem } from "./types.ts";
+import {
+  Element,
+  FilterOptions,
+  ListTypeReturn,
+  ViewOptions,
+  FilterOptionsSelected,
+} from "./types.ts";
 export type { Element, FilterOptions, ListTypeReturn };
 
 export function getParameterValue(name: string): Promise<string> {
@@ -24,6 +31,28 @@ export function getParameterValue(name: string): Promise<string> {
   });
 }
 
+export async function getAllFilters(): Promise<FilterOptionsSelected[]> {
+  const allFiltersRaw = (await getParameterValue("filters")) as string;
+  let allFilters: FilterOptionsSelected[] = [];
+  try {
+    allFilters = JSON.parse(allFiltersRaw) ?? [];
+    // deno-lint-ignore no-empty
+  } catch (_error) {}
+  return allFilters;
+}
+
+export async function getViewOptions(): Promise<ViewOptions> {
+  const viewOptionsRaw = (await getParameterValue("viewOptions")) as string;
+  let viewOptions: ViewOptions = {
+    toogleOptions: [],
+    selectOptions: [],
+  };
+  try {
+    viewOptions = JSON.parse(viewOptionsRaw) ?? {};
+  } catch (_error) {}
+  return viewOptions;
+}
+
 /**
  * Retorna el listado de elementos al cliente
  * @param response listado de elementos
@@ -33,8 +62,8 @@ export function returnListResponse(response: ListTypeReturn): ListTypeReturn {
 }
 
 export function returnFilterOptionsResponse(
-  options: FilterOptions[]
-): FilterOptions[] {
+  options: FilterSubItem[]
+): FilterSubItem[] {
   return options;
 }
 

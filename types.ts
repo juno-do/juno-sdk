@@ -1,4 +1,3 @@
-
 export type Body = {
   bodyHtml?: string;
   bodyMarkdown?: string;
@@ -16,44 +15,109 @@ export type Icon = {
   url: string;
   text?: string;
 };
-
-export type Element = {
+export type VisualAction = {
+  type: "custom" | "link" | "callback";
+  url?: string | undefined;
+  callbackId?: string | undefined;
+  customActionId?: string | undefined;
+};
+export type VisualIndicator = {
+  iconUrl: string;
+  text: string;
+  value: string;
+  tooltip: string;
+  action: VisualAction;
   id: string;
-  groupId?: string;
-  icon?: string;
-  title: string;
-  subTitle?: string;
-  highlight?: string;
-  origin?: string;
-  dateTime?: string;
-  principalIcon?:Icon,
-  infoIcons?: Icon[],
-  itemUrl?: string;
-  actions?: {
+  actionType: "callback" | "select" | "date";
+  actionOptions: {
     id: string;
     name: string;
     label: string;
-    icon?: string;
+    icon?: string | undefined;
   }[];
-  feeds?: {
-    title: string;
-    elements: ActivityItem[];
-  }[];
-  subItems?: {
-    title: string;
-    elements: Element[];
-  }[];
-  tags: {
-    id: string;
-    name: string;
-    colorHex?: string;
-  }[];
+  variant: "ghost" | "outline";
+  colorHex: string;
+  backgroundColorHex: string;
+  borderColorHex: string;
 };
 
-export type ListElement = Element &{
+export type TagsType = {
+  id: string;
+  name: string;
+  colorHex?: string | undefined;
+};
+type Breadcrumb = {
+  id: string;
+  name: string;
+  url: string;
+  label?: string | undefined;
+};
+export type Attachment = {
+  id: string;
+  name: string;
+  filename: string;
+  size: number;
+  mimeType: string;
+  content: string;
+  contentId: string;
+  externalUrl?: string | undefined;
+};
+
+export type Element = {
+  id: string;
+  groupId?: string | undefined;
+  icon?: string | undefined;
+  title: string;
+  titleForTask?: string | undefined;
+  subTitle?: string | undefined;
+  highlight?: string | undefined;
+  origin?: string | undefined;
+  dateTime?: string | undefined;
+  principalVisualIndicator?: VisualIndicator | undefined;
+  visualIndicatorsInTop?: VisualIndicator[] | undefined;
+  breadcrumb?: Breadcrumb[] | undefined;
+  visualIndicatorsInBottom?: VisualIndicator[] | undefined;
+  itemUrl?: string | undefined;
+  attachments?: Attachment[] | undefined;
+  customActions?:
+    | {
+        id: string;
+        name: string;
+        label: string;
+        icon?: string | undefined;
+        inputs: {
+          id: string;
+          name: string;
+          label: string;
+          type: string;
+          required: boolean;
+          default?: string | undefined;
+        }[];
+      }[]
+    | undefined;
+  feeds?:
+    | {
+        title: string;
+        elements: ActivityItem[];
+      }[]
+    | undefined;
+  subItems?:
+    | {
+        title: string;
+        badge: {
+          text: string;
+          colorHex: string;
+        };
+        elements: Element[];
+      }[]
+    | undefined;
+  tags: TagsType[];
+};
+
+export type ListElement = Element & {
   snippetText?: string;
   itemType: string;
-}
+};
 
 export type DetailElement = Element & Body;
 export type Sublist = {
@@ -70,16 +134,40 @@ export type ListTypeReturn = {
 };
 
 export type FilterOptions = {
+  filter: string;
   name: string;
   value: string;
   backgroundColor?: string;
 };
+
+export type FilterSubItem = {
+  title: string;
+  name: string;
+  multiple: boolean;
+  options: FilterOptions[];
+};
 export type Filter = {
   name: string;
+  title: string;
+  in_display_section?: boolean;
   principal: boolean;
   type: "static" | "dynamic";
   multiple: boolean;
   options: FilterOptions[];
+  subItems?: FilterSubItem[];
+  useSubItems?: boolean;
+};
+
+export type ViewOptions = {
+  toogleOptions: {
+    label: string;
+    value?: boolean | undefined;
+    defaultValue?: boolean | undefined;
+  }[];
+  selectOptions: {
+    label: string;
+    value: string;
+  }[];
 };
 
 export type Manifest = {
@@ -91,6 +179,7 @@ export type Manifest = {
   icon: string;
   author: string;
   domains: string[];
+  viewOptions: ViewOptions;
   auth: {
     type: "oauth2" | "basic";
     oauth2?: {
@@ -143,4 +232,9 @@ export type requestParams = {
   name: string;
   type: string;
   value?: string | undefined;
+};
+
+export type FilterOptionsSelected = {
+  name: string;
+  filters: { name: string; values: string[] }[];
 };
