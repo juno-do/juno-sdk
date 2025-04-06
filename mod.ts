@@ -5,6 +5,7 @@ import {
   FilterOptionsSelected,
   FilterSubItem,
 } from "./types.ts";
+
 export type * from "./types.ts";
 
 export function getParameterValue(name: string): Promise<string> {
