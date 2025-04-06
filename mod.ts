@@ -1,12 +1,11 @@
-import { FilterSubItem } from "./types.ts";
 import {
   Element,
-  FilterOptions,
   ListTypeReturn,
   ViewOptions,
   FilterOptionsSelected,
+  FilterSubItem,
 } from "./types.ts";
-export type { Element, FilterOptions, ListTypeReturn };
+export type * from "./types.ts";
 
 export function getParameterValue(name: string): Promise<string> {
   return new Promise((resolve, reject) => {
